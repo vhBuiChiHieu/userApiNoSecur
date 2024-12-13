@@ -1,6 +1,7 @@
 package com.vhbcieu.user_api.exception;
 
 import com.vhbcieu.user_api.user.dto.response.ApiResponse;
+import com.vhbcieu.user_api.user.dto.response.UserApiStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,9 @@ public class GlobalExceptionHandler {
     //Invalid body data
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
-        ApiResponse apiResponse = new ApiResponse(false, "400", "Invalid data", null);
+        String key = e.getFieldError().getDefaultMessage();
+        UserApiStatus userApiStatus =UserApiStatus.valueOf(key);
+        ApiResponse apiResponse = new ApiResponse(userApiStatus);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 }

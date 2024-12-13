@@ -12,10 +12,9 @@ import java.time.LocalDate;
 @Setter
 public class UserCreateRequest {
 
-    @Column(nullable = false)
-    @Size(min = 5, max = 20)
+    @Size(min = 5, max = 20, message = "USERNAME_INVALID")
     private String username;
-    @NotNull
+    @Size(min = 5, max = 20, message = "PASSWORD_INVALID")
     private String password;
     private String fullName;
     private String gender;
